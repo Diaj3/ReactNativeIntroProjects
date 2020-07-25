@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TextInput, Button, useColorScheme, ScrollView, 
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
-export default function App() {
+export default function App() { //TODO: Implementing deletion of the goals
 
   const [courseGoals, setCourseGoals] = useState([]);
 
@@ -12,15 +12,21 @@ export default function App() {
     setCourseGoals(currentGoals => [...courseGoals, {key: Math.random().toString(), value: goalTitle}]);
   };
 
+  const removeGoalHandler = goalId => {
+    setCourseGoals(currentGoals => {
+      return currentGoals.filter((goal) => goal.id !== goalId);
+    })
+  };
+
   return (
     <View style={styles.screen}>
 
       <GoalInput onAddGoal={addGoalHandler}/>
 
-      <FlatList data={courseGoals} renderItem={itemData => (<GoalItem title = {itemData.item.value} />)} />
+      <FlatList data={courseGoals} renderItem={itemData => (<GoalItem id = {itemData.item.id} title = {itemData.item.value} onDelete = {() => removeGoalHandler} />)} />
     
       <View style = {styles.testing_zone}>
-          <Text>Test Zone GANGANG</Text>
+          <Text>Testing Zone</Text>
       </View>
     </View>
   );
